@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'cayden.Main' // Replace with your main class
+    }
+}
+
+group = 'cayden'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url = uri("https://mvnrepository.com/artifact/org.json/json")
+    }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation("org.json:json:20250517")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    archiveClassifier.set('all')
+    manifest {
+        attributes('Implementation-Title': project.name,
+                'Implementation-Version': project.version
+        )
+    }
+}
